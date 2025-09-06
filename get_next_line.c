@@ -1,27 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: malhendi <malhendi@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 16:38:10 by malhendi          #+#    #+#             */
+/*   Updated: 2025/09/05 17:57:16 by malhendi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
 static int	read_to_nl(int fd, char **stash)
 {
-	char	buf[BUFFER_SIZE + 1];
+	char	*buf;
 	ssize_t	br;
 	char	*tmp;
 
+	buf = (char *)malloc((size_t)BUFFER_SIZE + 1);
+	if (!buf)
+		return (-1);
 	while (!ft_strchr(*stash, '\n'))
 	{
 		br = read(fd, buf, BUFFER_SIZE);
 		if (br < 0)
-			return (-1);
+			return (free(buf), -1);
 		if (br == 0)
 			break ;
 		buf[br] = '\0';
 		tmp = ft_strjoin(*stash, buf);
 		if (!tmp)
-			return (-1);
-		if (*stash)
-			free(*stash);
+			return (free(buf), -1);
+		free(*stash);
 		*stash = tmp;
 	}
+	free(buf);
 	return (0);
 }
 

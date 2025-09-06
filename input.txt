@@ -1,0 +1,11 @@
+Line 1: Hello world
+Line 2: This is get_next_line test
+Line 3: Each call returns one line
+Line 4: Keep reading until EOF
+Line 5: Testing with BUFFER_SIZE
+Line 6: Should handle newline correctly
+Line 7: Even if last line has no newline
+Line 8: Memory must be freed
+Line 9: No leaks allowed
+Line 10: End of file
+
