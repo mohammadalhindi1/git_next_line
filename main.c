@@ -9,7 +9,7 @@ int main(void)
 	
 	fd = open("hindi.txt", O_RDONLY);
 	int i = 0 ; 
-	while((line = get_next_line(fd)) != NULL && i < 2)
+	while((line = get_next_line(fd)) != NULL && i < 7)
 	{
 		printf("%s", line);
 		free(line);

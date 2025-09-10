@@ -25,13 +25,19 @@ static int	read_to_nl(int fd, char **stash)
 	{
 		br = read(fd, buf, BUFFER_SIZE);
 		if (br < 0)
-			return (free(buf), -1);
+		{
+			free(buf);
+			return (-1);
+		}
 		if (br == 0)
 			break ;
 		buf[br] = '\0';
 		tmp = ft_strjoin(*stash, buf);
 		if (!tmp)
-			return (free(buf), -1);
+		{
+			free(buf);
+			return (-1);
+		}
 		free(*stash);
 		*stash = tmp;
 	}
