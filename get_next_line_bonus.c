@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malhendi <malhendi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	join_into_stash(char **stash, char *buf, ssize_t br)
 {
@@ -84,18 +84,18 @@ static void	move_rest(char **stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[4096];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!stash)
-		stash = ft_strdup("");
-	if (!stash || read_to_nl_eof(fd, &stash) < 0)
-		return (free(stash), stash = NULL, NULL);
-	line = cut_line(stash);
-	move_rest(&stash);
-	if (!line && stash)
-		return (free(stash), stash = NULL, NULL);
+	if (!stash[fd])
+		stash[fd] = ft_strdup("");
+	if (!stash[fd] || read_to_nl_eof(fd, &stash[fd]) < 0)
+		return (free(stash[fd]), stash[fd] = NULL, NULL);
+	line = cut_line(stash[fd]);
+	move_rest(&stash[fd]);
+	if (!line && stash[fd])
+		return (free(stash[fd]), stash[fd] = NULL, NULL);
 	return (line);
 }
