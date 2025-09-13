@@ -6,7 +6,7 @@
 /*   By: malhendi <malhendi@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:38:10 by malhendi          #+#    #+#             */
-/*   Updated: 2025/09/05 17:57:16 by malhendi         ###   ########.fr       */
+/*   Updated: 2025/09/13 08:20:00 by malhendi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,21 @@ char	*get_next_line(int fd)
 	if (!stash)
 		stash = ft_strdup("");
 	if (!stash || read_to_nl_eof(fd, &stash) < 0)
-		return (free(stash), stash = NULL, NULL);
+	{
+		if (stash)
+		{
+			free(stash);
+			stash = NULL;
+		}
+		return (NULL);
+	}
 	line = cut_line(stash);
 	move_rest(&stash);
 	if (!line && stash)
-		return (free(stash), stash = NULL, NULL);
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
 	return (line);
 }
